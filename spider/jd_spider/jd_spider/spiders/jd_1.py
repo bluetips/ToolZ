@@ -32,7 +32,7 @@ class Jd1Spider(scrapy.Spider):
             item['url'] = 'https:' + obj.xpath('.//div[@class="p-img"]/a/@href')[0]
             item['sku'] = obj.xpath('./@data-sku')[0]
             item['shop'] = ''.join(obj.xpath('.//div[@class="p-shop"]//text()')).strip()
-            item['tags'] = obj.xpath('.//div[@class="p-icons"]//text()')
+            item['tags'] = re.sub('\s','',''.join(obj.xpath('.//div[@class="p-icons"]//text()')))
             yield scrapy.Request(item['url'], callback=self.parse_detail, meta=deepcopy(item))
         # url = response.url
         # pn = int(re.findall('page=(\d+)', url)[0])

@@ -14,6 +14,7 @@ sr = StrictRedis(host='139.196.91.125', port=6379, db=0)
 
 class JdSpiderPipeline(object):
     def process_item(self, item, spider):
+        print(item)
         try:
             c1.insert(item)
             sr.sadd('skus_pipe', item['sku'])
