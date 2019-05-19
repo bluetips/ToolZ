@@ -4,7 +4,10 @@
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+import json
+from random import choice
 
+import requests
 from scrapy import signals
 
 
@@ -101,3 +104,75 @@ class JdSpiderDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+class RotateUserAgentMiddleware(object):
+    """Rotate user-age for each request
+    """
+
+    def __init__(self, user_agents):
+        self.enabled = False
+        self.user_agents = user_agents
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        # This method is used by Scrapy to create your spiders.
+        # s = cls()
+        # crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
+        # return s
+        user_agents = crawler.settings.get('USER_AGENT_CHOICES', [])
+
+        o = cls(user_agents)
+        crawler.signals.connect(o.spider_opened, signal=signals.spider_opened)
+        return o
+
+    def process_spider_input(self, response, spider):
+        # Called for each response that goes through the spider
+        # middleware and into the spider.
+
+        # Should return None or raise an exception.
+        return None
+
+    def process_spider_output(self, response, result, spider):
+        # Called with the results returned from the Spider, after
+        # it has processed the response.
+
+        # Must return an iterable of Request, dict or Item objects.
+        for i in result:
+            yield i
+
+    def process_spider_exception(self, response, exception, spider):
+        # Called when a spider or process_spider_input() method
+        # (from other spider middleware) raises an exception.
+
+        # Should return either None or an iterable of Response, dict
+        # or Item objects.
+        pass
+
+    def process_start_requests(self, start_requests, spider):
+        # Called with the start requests of the spider, and works
+        # similarly to the process_spider_output() method, except
+        # that it doesn’t have a response associated.
+
+        # Must return only requests (not items).
+        for r in start_requests:
+            yield r
+
+    def spider_opened(self, spider):
+        spider.logger.info('Spider opened: %s' % spider.name)
+        self.enabled = getattr(spider, 'rotate_user_agent', self.enabled)
+
+    def process_request(self, request, spider):
+        request.headers['User-Agent'] = choice(self.user_agents)
+
+    # def process_response(self, request, response, spider):
+    #     # 如果该ip不能使用，更换下一个ip
+    #     if response.body == b"":
+    #         a = json.loads(
+    #             requests.get('http://api3.xiguadaili.com/ip/?tid=558328278574326&num=1&delay=2&format=json',
+    #                          verify=False).content.decode())[0]
+    #         proxy = a['host'] + ':' + str(a['port'])
+    #         print('更换ip' + proxy)
+    #         request.meta['proxy'] = "https://" + proxy
+    #         return request
+    #     return response

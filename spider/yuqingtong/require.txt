@@ -1,0 +1,9 @@
+requests
+numpy
+jieba
+redis
+pymysql
+emoji
+lxml
+DBUtils
+retrying

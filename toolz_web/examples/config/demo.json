@@ -1,0 +1,70 @@
+{
+  "username": "郑志强",
+  "layout": "grid",
+  "category": "京东电商",
+  "name": "竞品分析",
+  "modules": [
+    {
+      "name": "精华液 各价格区间商品数量分布",
+      "family": "Vega",
+      "refresh": false,
+      "height": 460,
+      "width": "col-4",
+      "dataSource": "http://127.0.0.1:5004/price_bar",
+      "override": false,
+      "refreshInterval": null,
+      "guid": "b1d33bc1-e952-29be-8478-49b3b9690374",
+      "type": "vega-lite",
+      "order": 1,
+      "row": 1
+    },
+    {
+      "name": "品牌组成",
+      "family": "C3",
+      "refresh": false,
+      "height": 460,
+      "width": "col-4",
+      "dataSource": "http://127.0.0.1:5004/brand_pie",
+      "override": false,
+      "refreshInterval": null,
+      "guid": "ee54c2e5-d579-5550-09dd-83bb116f306d",
+      "type": "donut",
+      "order": 2,
+      "row": 1
+    },
+    {
+      "name": "精华液 TOP50宝贝",
+      "family": "Vega",
+      "refresh": false,
+      "height": 460,
+      "width": "col-4",
+      "dataSource": "http://127.0.0.1:5004/top50_goods_bar",
+      "override": false,
+      "refreshInterval": null,
+      "guid": "b1d33bc1-e952-29be-8478-49b3b96903kl",
+      "type": "vega-lite",
+      "order": 3,
+      "row": 1
+    },
+    {
+      "name": "标题词云",
+      "family": "WordCloud",
+      "refresh": false,
+      "height": 500,
+      "width": "col-4",
+      "dataSource": "http://127.0.0.1:5004/wordcloud",
+      "override": false,
+      "refreshInterval": null,
+      "guid": "46c99420-a500-185b-dcbc-013d93ca8de1",
+      "type": "wordcloud",
+      "order": 1,
+      "row": 2
+    }
+  ],
+  "created_by": "global",
+  "date": "2017-05-14 15:23:08.304219",
+  "id": "55aab6f3-38e7-11e7-96fb-a0999b0aebbasdc"
+}
+
+
+
