@@ -1,6 +1,8 @@
 """A separate Flask app that serves fake endpoints for demo purposes."""
 
 # -*- coding: utf-8 -*-
+from copy import deepcopy
+
 import jieba.analyse
 import pymongo
 from itertools import combinations
@@ -895,6 +897,20 @@ def title_word():
 
 
 # '{"bar1": [1, 2, 30, 12, 100], "bar2": [37, 94, 53, 82, 23], "bar3": [91, 3, 67, 30, 23]}'
+
+@cross_origin()
+@app.route('/raw_goods', methods=['GET'])
+def raw_goods():
+    c1 = client['jd']['jd_goods']
+    ret = c1.find().limit(10)
+    json_list = []
+    num = 1
+    for i in ret:
+        item = deepcopy(i)
+        item['_id'] = num
+        json_list.append(item)
+        num += 1
+    return jsonify(json_list)
 
 
 if __name__ == '__main__':
